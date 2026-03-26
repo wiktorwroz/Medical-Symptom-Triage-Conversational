@@ -2,8 +2,6 @@
 
 Independent NLP project based on `sweatSmile/medical-symptom-triage-conversational`.
 
-![App Screenshot](screenshot.png)
-
 ## Executive Summary
 - Primary prediction target is `urgency` (stable, decision-oriented triage signal).
 - `specialty` is presented as ranked recommendations, not a hard final diagnosis class.
