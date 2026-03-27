@@ -32,3 +32,24 @@ Rekomendowane dalsze kroki:
 	•	lub zmiana podejścia na sugerowanie/ranking specjalizacji zamiast sztywnej klasyfikacji.
 
 W rezultacie poziom pilności może być przewidywany wiarygodnie, natomiast specjalizacja powinna być traktowana jako sugestia o niskiej pewności, a nie jednoznaczna rekomendacja.
+
+## Additional Experimental Conclusion (Specialty Modeling)
+
+We evaluated multiple specialty models (LDA, centroid-based, and embedding + classifier variants), but none improved MCC in a meaningful way. This indicates that, in this dataset setting, specialty prediction is not well-suited to strict single-label classification.
+
+This behavior is driven mainly by dataset structure:
+- high overlap between classes (similar symptoms across specialties),
+- non-unique mapping between text and label (one description can fit multiple specialties),
+- weak class separability in embedding space,
+- template-like and generic language that reduces discriminative signal,
+- semantic continuity that behaves more like similarity search than discrete class boundaries.
+
+As a result, this task is better framed as ranking/retrieval (top-K specialty suggestions) rather than strict top-1 classification.
+
+### Project Outcome
+- Single-label specialty models do not achieve strong MCC.
+- Embedding-based methods capture semantic similarity better than hard class boundaries (often stronger top-3 behavior than top-1).
+- The dataset is more suitable for:
+  - top-K recommendation,
+  - semantic retrieval,
+  - or multi-label formulation.
