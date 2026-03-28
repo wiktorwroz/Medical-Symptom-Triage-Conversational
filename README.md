@@ -35,21 +35,32 @@ W rezultacie poziom pilności może być przewidywany wiarygodnie, natomiast spe
 
 ## Additional Experimental Conclusion (Specialty Modeling)
 
-We evaluated multiple specialty models (LDA, centroid-based, and embedding + classifier variants), but none improved MCC in a meaningful way. This indicates that, in this dataset setting, specialty prediction is not well-suited to strict single-label classification.
+We tested specialty prediction under two evaluation regimes and observed split-dependent behavior:
+- **Official split (HF train/validation):** specialty remains weak (`MCC = 0.000`, `kappa = 0.000`).
+- **Custom stratified evaluation:** specialty becomes strong in-distribution (holdout `MCC = 0.976`; 5-fold CV mean `MCC = 0.955 +/- 0.027`).
 
-This behavior is driven mainly by dataset structure:
-- high overlap between classes (similar symptoms across specialties),
-- non-unique mapping between text and label (one description can fit multiple specialties),
-- weak class separability in embedding space,
-- template-like and generic language that reduces discriminative signal,
-- semantic continuity that behaves more like similarity search than discrete class boundaries.
+This means the model can separate specialties when train/validation distributions are aligned, but robustness degrades under distribution/class mismatch.
 
-As a result, this task is better framed as ranking/retrieval (top-K specialty suggestions) rather than strict top-1 classification.
+In plain terms:
+- it is **not** true that specialty is always impossible,
+- but it is also **not** robust enough to trust as a single definitive label in all settings.
+
+As a result, the safest product framing is:
+- `urgency` as the primary, high-confidence output,
+- `specialty` as top-K ranked suggestions (with confidence), not strict top-1 diagnosis.
 
 ### Project Outcome
-- Single-label specialty models do not achieve strong MCC.
-- Embedding-based methods capture semantic similarity better than hard class boundaries (often stronger top-3 behavior than top-1).
-- The dataset is more suitable for:
-  - top-K recommendation,
-  - semantic retrieval,
-  - or multi-label formulation.
+- Specialty performance is highly sensitive to evaluation regime (robustness vs in-distribution).
+- In-distribution specialty quality can be high with MiniLM + Logistic Regression.
+- Under shift, specialty reliability drops sharply, so ranking/retrieval framing is preferred.
+
+## Key Results (CV-ready)
+- Built and compared multiple NLP pipelines for specialty prediction: MiniLM + Logistic Regression, MiniLM + LDA variants, and MiniLM + centroid similarity.
+- Evaluated with robust multi-class metrics (`MCC`, `balanced_accuracy`, `f1_macro`, `top-3 accuracy`) instead of relying only on accuracy.
+- Diagnosed a core data limitation: specialty labels are weakly separable, while urgency remains a stable and actionable target.
+- Reframed the product direction from strict top-1 specialty prediction to top-K specialty suggestion.
+
+## Business Takeaways
+- For triage UX, prioritize `urgency` as the primary prediction and present `specialty` as ranked suggestions.
+- Ranking/retrieval framing is safer clinically than forcing one definitive specialty label from ambiguous patient text.
+- Future gains depend more on richer data and label design than on swapping classifiers.
