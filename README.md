@@ -2,6 +2,10 @@ Why urgency classification works better than specialty prediction
 
 While the model achieves strong performance for urgency classification, predicting the exact medical specialty proved significantly more challenging. This is primarily due to limitations of the dataset rather than the modeling approach.
 
+## App Screenshot
+
+![Medical Symptom Triage App](screenshot.png)
+
 Patient-reported symptom descriptions are often short, ambiguous, and lack sufficient clinical context, making it difficult to distinguish between closely related specialties (e.g., cardiology vs pulmonology). In contrast, urgency levels are more directly reflected in language intensity and severity cues (e.g., “severe pain”, “cannot breathe”), which are easier for models to capture.
 
 Additionally, clinical NLP suffers from limited availability of high-quality, annotated datasets, especially for fine-grained tasks like specialty classification. Small and imbalanced datasets further reduce model performance, particularly for multi-class problems with overlapping symptom patterns.
