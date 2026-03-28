@@ -4,8 +4,8 @@ While the model achieves strong performance for urgency classification, predicti
 
 ## App Screenshot
 
-![Medical Symptom Triage App](screenshot.png)
-![Medical Symptom Triage Top-3](Medical_triage_top3.jpg)
+![Medical Symptom Triage App](assets/screenshot.png)
+![Medical Symptom Triage Top-3](assets/medical_triage_top3.jpg)
 
 Patient-reported symptom descriptions are often short, ambiguous, and lack sufficient clinical context, making it difficult to distinguish between closely related specialties (e.g., cardiology vs pulmonology). In contrast, urgency levels are more directly reflected in language intensity and severity cues (e.g., “severe pain”, “cannot breathe”), which are easier for models to capture.
 
